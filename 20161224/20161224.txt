@@ -1,0 +1,144 @@
+（2）flex和box的区别:
+display：box 是老规范，要兼顾古董机子就加上它；
+父级元素有display:box;属性之后。他的子元素里面加上box-flex属性。可以让子元素按照父元素的宽度进行一定比例的分占空间。
+flex是最新的，董机老机子不支持的；
+父元素设置display:flex后，子元素宽度会随父元素宽度的改变而改变，而display:box不会。
+Android UC浏览器只支持display: box语法；而iOS UC浏览器则支持两种方式。
+
+14.viewport 所有属性 ？
+答： (1)width :设置layout viewport的宽度，为一个正整数，或字符串'device-width';
+     (2)initial-scale:设置页面的初始缩放值，为一个数字，可以带小数。
+     (3)minimum-scale:允许用户的最小缩放值，为一个数字，可以带小数。
+     (4)maximum-scale:允许用户的最大缩放值，为一个数字，可以带小数。
+     (5)height:设置layout viewport的高度，这个属性对我们并不重要，很少使用
+     (6)user-scalable:是否允许用户进行缩放，值为‘no’或者‘yes’。
+     安卓中还支持：target-densitydpi，表示目标设备的密度等级，作用是决定css中的1px代表多少物理像素
+     (7)target-densitydpi:值可以为一个数值或者 high-dpi 、 medium-dpi、 low-dpi、 device-dpi 这几个字符串中的一个
+	 
+
+c3中引入的伪类选择器：
+
+:root()选择器，根选择器，匹配元素E所在文档的根元素。在HTML文档中，根元素始终是<html>。:root选择器等同于<html>元素。
+:not()选择器称为否定选择器，和jQuery中的:not选择器一模一样，可以选择除某个元素之外的所有元素。
+:empty()选择器表示的就是空。用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格。
+:target()选择器来对页面某个target元素(该元素的id被当做页面中的超链接来使用)指定样式，该样式只在用户点击了页面中的超链接，并且跳转到target元素后起作用。
+:first-child()选择器表示的是选择父元素的第一个子元素的元素E。简单点理解就是选择元素中的第一个子元素，记住是子元素，而不是后代元素。
+:nth-child()选择某个元素的一个或多个特定的子元素。
+:nth-last-child()从某父元素的最后一个子元素开始计算，来选择特定的元素
+:nth-of-type(n)选择器和:nth-child(n)选择器非常类似，不同的是它只计算父元素中指定的
+
+某种类型的子元素。
+
+:only-child表示的是一个元素是它的父元素的唯一一个子元素。
+:first-line为某个元素的第一行文字使用样式。
+:first-letter 为某个元素中的文字的首字母或第一个字使用样式。
+:before  在某个元素之前插入一些内容。
+:after  在某个元素之后插入一些内容。 
+c3中伪元素：
+::first-line选择元素的第一行，比如说改变每个段落的第一行文本的样式
+::before和::after这两个主要用来给元素的前面或后面插入内容，这两个常用"content"配合使用，见过最多的就是清除浮动
+::selection用来改变浏览网页选中文的默认效果
+
+17、html5有哪些新特性、移除了那些元素？如何处理HTML5新标签的浏览器兼容问题？如何区分 HTML 和 HTML5？
+* HTML5 现在已经不是 SGML 的子集，主要是关于图像，位置，存储，多任务等功能的增加。 
+* 拖拽释放(Drag and drop) API 
+语义化更好的内容标签（header,nav,footer,aside,article,section） 
+音频、视频API(audio,video)
+画布(Canvas) API 
+地理(Geolocation) API 
+本地离线存储 localStorage 长期存储数据，浏览器关闭后数据不丢失；         sessionStorage 的数据在浏览器关闭后自动删除 
+表单控件，calendar、date、time、email、url、search 
+新的技术webworker, websocket, Geolocation 
+
+* 移除的元素 纯表现的元素：basefont，big，center，font, s，strike，tt，u； 
+对可用性产生负面影响的元素：frame，frameset，noframes；
+
+
+18. placeholder?如何在ie8上兼容placeholder这个效果
+方法一：
+首先判断浏览器是否支持placeholder属性，如果不支持的话，就遍历所有input输入框，获取placeholder属性的值填充进输入框作为提示信息，同时字体设置成灰色。
+当输入框获得焦点( focus )同时输入框内文字等于设置的提示信息时，就把输入框内清空；
+当输入框失去焦点( blur )同时输入框内文字为空时，再把获取的placeholder属性的值填充进输入框作为提示信息，同时字体设置成灰色；
+当输入框内有输入( keydown )时，此时输入框内的提示信息已经由focus事件清除，此时只需要把字体再恢复成黑色即可
+此方法的缺点是，不适用于加载完DOM时即获得焦点的输入框，因为在用户的角度，加载完页面时看到的获得焦点的那个输入框，它的提示文字是看不到的。
+HTML：
+<input type="text" id="uname" name="uname" placeholder="请输入用户名"/>
+
+CSS：
+.phcolor{ color:#999;}
+
+JS
+$(function(){  
+  //判断浏览器是否支持placeholder属性
+  supportPlaceholder='placeholder'in document.createElement('input'),
+  placeholder=function(input){
+    var text = input.attr('placeholder'),
+    defaultValue = input.defaultValue;
+    if(!defaultValue){
+      input.val(text).addClass("phcolor");
+    }
+    input.focus(function(){
+      if(input.val() == text){
+        $(this).val("");
+      }
+    });
+    input.blur(function(){
+      if(input.val() == ""){
+        $(this).val(text).addClass("phcolor");
+      }
+    });
+    //输入的字符不为灰色
+    input.keydown(function(){
+      $(this).removeClass("phcolor");
+    });
+  };
+  //当浏览器不支持placeholder属性时，调用placeholder函数
+  if(!supportPlaceholder){
+    $('input').each(function(){
+      text = $(this).attr("placeholder");
+      if($(this).attr("type") == "text"){
+        placeholder($(this));
+      }
+    });
+  }
+});
+方法二：
+此方法的思路是做一张含有提示文字的图片作为input输入框的背景图，初始时获得焦点同时加载背景图；
+当输入框不为空时，去掉背景图；
+当输入框为空时，加载背景图；
+当用户键盘按键且输入框不为空( 输入字符 )时，去掉背景图；
+当用户键盘按键且输入框为空( 删除字符 )时，加载背景图。
+此方法的缺点是：需要为每一个提示文字不同的input制作背景图片，并且设置input的样式。
+CSS：
+.phbg{ background:url(img/bg.jpg) 0 0 no-repeat;}
+
+JS
+$(function(){  
+   //判断浏览器是否支持placeholder属性
+   supportPlaceholder='placeholder' in document.createElement('input');
+   if(!supportPlaceholder){
+     //初始状态添加背景图片
+     $("#uname").attr("class","phbg");
+     //初始状态获得焦点
+     $("#uname").focus;
+     function destyle(){
+      if($("#uname").val() != ""){
+        $("#uname").removeClass("phbg");
+      }else{
+        $("#uname").attr("class","phbg");
+       }
+     }
+     //当输入框为空时，添加背景图片；有值时去掉背景图片
+     destyle();
+     $("#uname").keyup(function(){
+      //当输入框有按键输入同时输入框不为空时，去掉背景图片；有按键输入同时为空时（删除字符），添加背景图片
+      destyle();
+     });
+     $("#uname").keydown(function(){
+      //keydown事件可以在按键按下的第一时间去掉背景图片
+      $("#uname").removeClass("phbg");
+     });
+   }
+});
+方法三：
+使用插件：Placeholders.js

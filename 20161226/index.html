@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			button{
+				border: 1px solid #cd5c5c;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				padding: 10px;
+				font-family: "微软雅黑";
+				float: left;
+			}
+			.txt{
+				
+				height: 25px;
+				border: 1px solid #0000ff;
+				float: left;
+				margin-left: 30px;
+				border-radius: 5px;
+				padding: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<button id="btn">获取验证码</button>
+		<div class="txt" id="txt"></div>
+	</body>
+	<script type="text/javascript">
+		
+		window.onload = function(){
+			var oBtn = document.getElementById("btn");
+			var oTxt = document.getElementById("txt");
+			
+			//生成随机数
+			function rund(n,m){
+				return Math.floor(Math.random()*(m-n)+n)
+			}
+			
+			/*var numb = Math.floor(Math.random()*(33-1)+1);
+			console.log(numb)*/
+			
+			//去除数组中重复的数字
+			function findInArr(n,arr){
+				for (var i =0 ;i<arr.length;i++) {
+					if (arr[i] == n) {		//存在的话--返回true
+						return true
+					}
+				}
+				return false;				//不存在返回false
+			}
+			
+			oBtn.onclick = function(){
+				//每次点击的时候执行一次
+				var num = [];
+				while (num.length<6){
+					var m = rund(1,34);			//随机数，0-9的随机数
+					if (!findInArr(m,num)) {	//判断生成的随机数，数组中是否存在
+						if (m<10) {
+							m = '0'+m;
+						}
+						num.push(m);			//返回false的时候，把生成额随机数，push到数组中
+					}
+				}
+				
+				var str = num.splice(' ');
+				num = str.join(' ');
+				//num = str.sort();			//排序
+				oTxt.innerHTML = num;
+				console.log(num)
+			};
+		}
+		
+	</script>
+</html>

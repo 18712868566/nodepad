@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#wrap{
+				width: 1208px;
+				height: 350px;
+				background: url(images/0.jpg) no-repeat center 0;
+				position: relative;
+				margin: 100px auto;
+				
+			}
+			i{
+				
+				display: block;
+				width: 30px;
+				height: 30px;
+				background: red;
+				float: left;
+				margin-right: 5px;
+				text-align: center;
+				line-height: 30px;
+				color: #fff;
+			}
+			.curr{
+				background: #000;
+			}
+			.list{
+				position: absolute;
+				right: 20px;
+				bottom: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="cont" id="wrap">
+			<div class="list">
+				<i class="curr">1</i>
+				<i>2</i>
+				<i>3</i>
+				<i>4</i>
+			</div>
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+		window.onload = function(){
+			var oDiv = document.getElementById("wrap");
+			var oI = oDiv.getElementsByTagName('i');
+			var len = oI.length;
+			var iTarget = 0;
+
+			for (var i=0;i<len;i++) {
+				oI[i].index = i;
+				//console.log(oI[i].index);
+				oI[i].onclick = function()
+				{	
+					for (var i=0;i<oI.length;i++) {
+						oI[i].style.background = 'red'
+						oDiv.style.background = "url(images/0.jpg) no-repeat center 0"
+					}
+					this.style.background = '#000';
+					oDiv.style.background = "url(images/"+this.index+".jpg) no-repeat center 0"
+				}
+			}
+			
+			
+			var time = setInterval(show,2000);
+			
+			function show(){
+				if (iTarget<len-1) {
+					iTarget++
+				}else{
+					
+					iTarget = 0;
+				}
+				for (var i=0;i<len;i++) {
+					oI[i].index = i;
+					oI[i].style.background = 'red'
+				}
+				oDiv.style.background = "url(images/"+iTarget+".jpg) no-repeat center 0";
+				oI[iTarget].style.background = '#000';
+			}
+			
+		};
+					
+		
+	</script>
+</html>
