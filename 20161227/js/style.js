@@ -21,14 +21,16 @@ time = setInterval(function(){
 	},2500);
 
 //向前一个
-function prve(){
+function prve(event){
+		event.stopPropagation();
 		clearInterval(time);
 		(curIndex == 0)? curIndex = listLen-1 : curIndex --;
 		showPlay(curIndex,'.tabBox .show');
 	}
 
 //向后一个
-function next(){
+function next(event){
+		event.stopPropagation();
 		clearInterval(time);
 		(curIndex<listLen-1)? curIndex++ : curIndex = 0;
 		showPlay(curIndex,'.tabBox .show');
